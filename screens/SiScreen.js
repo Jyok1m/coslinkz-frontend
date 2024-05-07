@@ -6,36 +6,61 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import React from "react";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { LinearGradient } from "expo-linear-gradient";
+import React, { useState } from "react";
 
 export default function SiScreen({ navigation }) {
+  const [usernameSi, setUsernameSi] = useState("");
+  const [passwordSi, setPasswordSi] = useState("");
+
   return (
     <KeyboardAwareScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
+      <LinearGradient
+        colors={["#0a1841", "#0b80db"]}
+        style={styles.background}
+      />
+
       <View style={styles.separator} />
 
       <View style={styles.top}>
-        <Image style={styles.logo} source={require("../assets/Logo CosLinkz.webp")} />
-        <Text style={styles.title}>CosLinkz</Text>
+        <Image
+          style={styles.logo}
+          source={require("../assets/Logo CosLinkz.webp")}
+        />
+        <Text style={styles.title} className="text-gray-300 font-semibold">
+          CosLinkz
+        </Text>
       </View>
 
       <View style={styles.containerInput}>
-        <TextInput style={styles.input} placeholder="Pseudo"></TextInput>
+        <TextInput
+          style={styles.input}
+          placeholder="Pseudo"
+          onChangeText={(value) => setUsernameSi(value)}
+          value={usernameSi}
+        ></TextInput>
         <TextInput
           style={styles.input}
           placeholder="Mot de passe"
           secureTextEntry={true}
+          onChangeText={(value) => setPasswordSi(value)}
+          value={passwordSi}
         ></TextInput>
-        <TouchableOpacity style={styles.buttons} onPress={() => navigation.navigate('TabNavigator')}>
+        <Text className="underline w-full items-end">Mot de passe oublié</Text>
+        <TouchableOpacity
+          style={styles.buttons}
+          onPress={() => navigation.navigate("TabNavigator")}
+        >
           <Text style={styles.text}>CONNEXION</Text>
         </TouchableOpacity>
         <View style={styles.question}>
           <Text>
             Pas encore inscrit ?{" "}
-            <Text style={styles.link} onPress={() => navigation.navigate('Su')}>
+            <Text style={styles.link} onPress={() => navigation.navigate("Su")}>
               Inscription
             </Text>
           </Text>
@@ -48,7 +73,11 @@ export default function SiScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0861c4",
+  },
+  background: {
+    height: "100%",
+    width: "100%",
+    position: "absolute",
   },
 
   // mainContain: {
@@ -63,11 +92,11 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
 
-//   background: {
-//     height: "100%",
-//     width: "100%",
-//     position: "absolute",
-//   },
+  //   background: {
+  //     height: "100%",
+  //     width: "100%",
+  //     position: "absolute",
+  //   },
   containerInput: {
     width: "80%",
     marginTop: 10,
@@ -87,7 +116,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 10,
     padding: 10,
-    backgroundColor: "#FCEFEC"
+    backgroundColor: "#FCEFEC",
   },
   buttons: {
     backgroundColor: "#74D48F",
