@@ -6,8 +6,20 @@ import SuScreen from "./screens/SuScreen";
 import HomeScreen from "./screens/HomeScreen";
 import EventScreen from "./screens/EventScreen";
 import TutoScreen from "./screens/TutoScreen";
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import ProfileScreen from "./screens/ProfileScreen";
+import AvatarSnapScreen from "./screens/AvatarSnapScreen";
+import ConfirmScreen from "./screens/ConfirmScreen";
+import ChangePasswordScreen from "./screens/ChangePassword"
+import ForgotPassword from "./screens/ForgotPassword";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
+import user from './reducers/user';
+
+const store = configureStore({
+  reducer: { user },
+});
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,8 +37,7 @@ const TabNavigator = () => {
             iconName = "calendar"
           } else if (route.name === "Tuto") {
             iconName = "book"
-          }
-          else if (route.name === "Profile") {
+          } else if (route.name === "Profile") {
             iconName = "user";
           }
 
@@ -46,12 +57,19 @@ const TabNavigator = () => {
 };
 export default function App() {
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Si" component={SiScreen} options={{headerShown: false}} />
         <Stack.Screen name="Su" component={SuScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Confirm" component={ConfirmScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Avatar" component={AvatarSnapScreen} options={{headerShown: false}} />
+        <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} options={{headerShown: false}} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false}}/>
         <Stack.Screen name="TabNavigator" component={TabNavigator} options={{headerShown: false}}/>
+        
       </Stack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 }

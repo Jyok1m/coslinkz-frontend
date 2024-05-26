@@ -8,11 +8,45 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LinearGradient } from "expo-linear-gradient";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { login, logout } from "../reducers/user";
+
 
 export default function SiScreen({ navigation }) {
-  const [usernameSi, setUsernameSi] = useState("");
-  const [passwordSi, setPasswordSi] = useState("");
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [terror , setError] = useState("")
+
+  const dispatch = useDispatch()
+
+
+  const handleLogin = async () => {
+   try {
+    const response = await fetch("http://192.168.1.102:4000/auth/sign-in", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ identifier, password }),
+    })
+    const data = await response.json()
+    // console.log(data);
+    if (data.mustConfirm) {
+      navigation.navigate("Confirm");
+      dispatch(login({username: identifier, confirm: data.mustConfirm, access: data.accessToken, refresh:data.refreshToken}))
+      // setUsernameSi("")
+      // setPasswordSi("")
+    } else if(data.error){
+      return
+    } else{
+      // console.log(data)
+      navigation.navigate("TabNavigator");
+      dispatch(login({ username: identifier, confirm: data.mustConfirm, access: data.accessToken, refresh:data.refreshToken}))
+    }
+     }  
+     catch (e) {
+			setError('Network error');
+		}
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -40,21 +74,22 @@ export default function SiScreen({ navigation }) {
         <TextInput
           style={styles.input}
           placeholder="Pseudo"
-          onChangeText={(value) => setUsernameSi(value)}
-          value={usernameSi}
+          onChangeText={(value) => setIdentifier(value)}
+          value={identifier}
         ></TextInput>
         <TextInput
           style={styles.input}
           placeholder="Mot de passe"
           secureTextEntry={true}
-          onChangeText={(value) => setPasswordSi(value)}
-          value={passwordSi}
+          onChangeText={(value) => setPassword(value)}
+          value={password}
         ></TextInput>
-        <Text className="underline w-full items-end">Mot de passe oublié</Text>
-        <TouchableOpacity
-          style={styles.buttons}
-          onPress={() => navigation.navigate("TabNavigator")}
-        >
+        <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
+          <Text className="underline w-full items-end">
+            Mot de passe oublié
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttons} onPress={() => handleLogin()}>
           <Text style={styles.text}>CONNEXION</Text>
         </TouchableOpacity>
         <View style={styles.question}>

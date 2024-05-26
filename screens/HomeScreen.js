@@ -1,7 +1,5 @@
 import {
   View,
-  Text,
-  Button,
   SafeAreaView,
   StyleSheet,
   Image,
@@ -14,6 +12,7 @@ import React from "react";
 import Posts from "../components/Posts";
 
 export default function HomeScreen({ navigation }) {
+
   const postData = [
     {
       name: "Farid",
@@ -40,11 +39,6 @@ export default function HomeScreen({ navigation }) {
       <LinearGradient colors={["#0a1841", "#0b80db"]} style={styles.background} />
 
       <View >
-        {/* <Text>Home Screen</Text>
-        <Button
-          title="Go to Profile"
-          onPress={() => navigation.navigate("Profile")}
-        /> */}
         <View style={styles.header}>
           <View>
             <Image

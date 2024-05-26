@@ -8,15 +8,38 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
+import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout } from "../reducers/user";
 
 export default function SuScreen({ navigation }) {
-
   const [usernameSu, setUsernameSu] = useState("");
   const [email, setEmail] = useState("");
   const [passwordSu, setPasswordSu] = useState("");
-
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.value);
+  
+  const handleRegister = () => {
+    fetch("http://192.168.1.102:4000/auth/sign-up", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: usernameSu,
+        email: email,
+        password: passwordSu,
+      }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log(data);
+      if (data.success) {
+        navigation.navigate("Confirm");
+        dispatch(login({ username: usernameSu, confirm: data.mustConfirm, access: data.accessToken, refresh:data.refreshToken}))
+        console.log(user);
+      }
+    });
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -46,17 +69,29 @@ export default function SuScreen({ navigation }) {
               style={styles.logo}
               source={require("../assets/Logo CosLinkz.webp")}
             />
-            <Text style={styles.title} className="text-gray-300 font-semibold">CosLinkz</Text>
+            <Text style={styles.title} className="text-gray-300 font-semibold">
+              CosLinkz
+            </Text>
           </View>
 
           <View style={styles.containerInput}>
-            <TextInput style={styles.input} placeholder="Pseudo" onChangeText={(value) => setUsernameSu(value)} value={usernameSu}></TextInput>
-            <TextInput style={styles.input} placeholder="Email" onChangeText={(value) => setEmail(value)} value={email}></TextInput>
+            <TextInput
+              style={styles.input}
+              placeholder="Pseudo"
+              onChangeText={(value) => setUsernameSu(value)}
+              value={usernameSu}
+            ></TextInput>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              onChangeText={(value) => setEmail(value)}
+              value={email}
+            ></TextInput>
             <TextInput
               style={styles.input}
               secureTextEntry={true}
               placeholder="Mot de passe"
-              onChangeText={(value) => setPasswordSu(value)} 
+              onChangeText={(value) => setPasswordSu(value)}
               value={passwordSu}
             ></TextInput>
             <View name="AgreedContainer" style={styles.agreedContainer}>
@@ -72,7 +107,7 @@ export default function SuScreen({ navigation }) {
             </View>
             <TouchableOpacity
               style={styles.buttons}
-              onPress={() => navigation.navigate("TabNavigator")}
+              onPress={() => handleRegister()}
             >
               <Text style={styles.text}>INSCRIPTION</Text>
             </TouchableOpacity>
