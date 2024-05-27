@@ -8,6 +8,7 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
+import { localFetch } from "../localFetch";
 import { useSelector } from "react-redux";
 
 export default function ConfirmScreen({navigation}) {
@@ -17,7 +18,7 @@ export default function ConfirmScreen({navigation}) {
   
 
   const handleConfirm = () => {
-    fetch("http://192.168.1.102:4000/auth/confirm-account", {
+    fetch(`${localFetch}/auth/confirm-account`, {
         method: "POST",
         headers:{
             "Content-Type": "application/json",

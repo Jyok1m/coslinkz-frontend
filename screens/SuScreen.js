@@ -11,6 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
+import { localFetch } from "../localFetch";
 import { login, logout } from "../reducers/user";
 
 export default function SuScreen({ navigation }) {
@@ -21,7 +22,7 @@ export default function SuScreen({ navigation }) {
   const user = useSelector((state) => state.user.value);
   
   const handleRegister = () => {
-    fetch("http://192.168.1.102:4000/auth/sign-up", {
+    fetch(`${localFetch}/auth/sign-up`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

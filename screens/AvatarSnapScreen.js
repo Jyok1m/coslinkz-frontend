@@ -186,7 +186,7 @@ export default function AvatarSnapScreen({ navigation }){
                 type: "image/jpeg",
             });
 
-            fetch('http://192.168.1.102:4000/user/avatar', {
+            fetch(`${localFetch}/user/avatar`, {
                 method: "POST",
                 body: formData,
                 headers: {
@@ -196,13 +196,14 @@ export default function AvatarSnapScreen({ navigation }){
             })
             .then((response) => response.json())
             .then((data) => {
-                if (data.success) {
-                    dispatch(addProfilePic(data.uri));
-                    navigation.navigate("TabNavigator", { screen: "Profil" });
-                } else {
-                    console.log(data);
-                    console.error("Error:", data.error);
-                }
+                console.log(data)
+                // if (data.success) {
+                //     dispatch(addProfilePic(data.uri));
+                //     navigation.navigate("TabNavigator", { screen: "Profil" });
+                // } else {
+                //     console.log(data);
+                //     console.error("Error:", data.error);
+                // }
             })
             .catch((error) => {
                 console.error("Network request failed:", error);

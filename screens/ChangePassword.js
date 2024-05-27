@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
+import { localFetch } from "../localFetch";
 import { useSelector } from "react-redux";
 
 export default function ForgetScreen() {
@@ -16,7 +17,7 @@ export default function ForgetScreen() {
   const user = useSelector((state) => state.user.value);
 
   const handleChange = () => {
-    fetch("http://192.168.20.46:4000/auth/change-password", {
+    fetch(`${localFetch}/auth/change-password`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

@@ -10,20 +10,22 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { localFetch } from "../localFetch";
 import { login, logout } from "../reducers/user";
 
 
 export default function SiScreen({ navigation }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [terror , setError] = useState("")
+  const [errorField, setErrorField] = useState(false);
+  const [error , setError] = useState("");
 
   const dispatch = useDispatch()
 
 
   const handleLogin = async () => {
    try {
-    const response = await fetch("http://192.168.1.102:4000/auth/sign-in", {
+    const response = await fetch(`${localFetch}/auth/sign-in`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ identifier, password }),
@@ -36,6 +38,7 @@ export default function SiScreen({ navigation }) {
       // setUsernameSi("")
       // setPasswordSi("")
     } else if(data.error){
+      setErrorField(true)
       return
     } else{
       // console.log(data)
@@ -55,11 +58,14 @@ export default function SiScreen({ navigation }) {
     >
       <LinearGradient
         colors={["#0a1841", "#0b80db"]}
-        style={styles.background}
+        className = "h-full w-full absolute"
+        // style={styles.background}
       />
 
       <View style={styles.separator} />
-
+      {errorField && ( <View className="bg-red-400 p-2 text-gray-300 mb-4">
+            <Text>Le mail ou le mot de passe est invalide.</Text>
+          </View>)}
       <View style={styles.top}>
         <Image
           style={styles.logo}
@@ -101,6 +107,7 @@ export default function SiScreen({ navigation }) {
           </Text>
         </View>
       </View>
+      <View style={styles.separator} />
     </KeyboardAwareScrollView>
   );
 }
@@ -109,11 +116,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  background: {
-    height: "100%",
-    width: "100%",
-    position: "absolute",
-  },
+  // background: {
+  //   height: "100%",
+  //   width: "100%",
+  //   position: "absolute",
+  // },
 
   // mainContain: {
   //   marginTop: 20,
@@ -123,15 +130,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   separator: {
-    height: 170,
+    height: 100,
     backgroundColor: "transparent",
   },
 
-  //   background: {
-  //     height: "100%",
-  //     width: "100%",
-  //     position: "absolute",
-  //   },
   containerInput: {
     width: "80%",
     marginTop: 10,

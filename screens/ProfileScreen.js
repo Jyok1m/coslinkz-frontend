@@ -11,6 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Profile from "../components/Profile";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import React from "react";
+import { localFetch } from "../localFetch";
 import { useSelector } from "react-redux";
 
 export default function ProfileScreen({ navigation }) {
