@@ -7,11 +7,15 @@ import {
   ScrollView,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { localFetch } from "../localFetch";
+import { useSelector } from "react-redux";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Posts from "../components/Posts";
 
 export default function HomeScreen({ navigation }) {
+
+  
 
   const postData = [
     {
@@ -53,7 +57,7 @@ export default function HomeScreen({ navigation }) {
             <TouchableOpacity>
               <FontAwesome name="bell-o" size={25} style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate('AllChats')}>
               <FontAwesome name="envelope-o" size={25} style={styles.icon} />
             </TouchableOpacity>
           </View>

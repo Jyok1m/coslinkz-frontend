@@ -13,7 +13,7 @@ export default function Posts(props) {
   }
 
   return (
-    <View className="mb-7">
+    <View className="m-4 border border-white rounded-lg pt-2">
       <View className="flex-row ml-2 mb-2">
         <Image
           className="w-11 h-11 rounded-3xl"
@@ -22,26 +22,29 @@ export default function Posts(props) {
         />
         <Text className="text-base font-bold underline ml-2 text-gray-200">{props.name}</Text>
       </View>
-      <View className="w-full flex-row justify-center h-96 ">
-        <View className=" w-4/5 ">
+      <View className="w-full flex-row justify-center h-96  ">
+        <View className=" w-full drop-shadow-2xl ">
           <Image
-            className="w-full h-full object-cover rounded-t-lg"
+            className="w-full h-full aspect-auto rounded-t-lg"
             source={props.photo}
-            alt=""
           />
         </View>
-        {/* <Text className="pseudo">TheCHélico</Text> */}
       </View>
-      <View className="w-full items-center">
-        <View className="flex-column w-4/5 items-center bg-white rounded-b-lg">
-          <View className="flex-row w-full justify-between px-1.5 py-1">
+      <View className="w-full items-center ">
+        <View className="flex-column w-full items-center bg-slate-500 rounded-b-lg">
+          <View className="flex-row w-full justify-between px-4 py-1.5">
             <View className="flex-row">
+              <View className="flex-row">
               <TouchableOpacity onPress={() => handleLiked()}>
                 <FontAwesome name="heart" size={25} color={color}/>
               </TouchableOpacity>
-              <TouchableOpacity>
-                <FontAwesome name="comment-o" size={25} className="pl-2.5"/>
-              </TouchableOpacity>
+              <Text className="mt-2">(0)</Text>
+              </View>
+              <View>
+                <TouchableOpacity>
+                  <FontAwesome name="comment-o" size={25} className="pl-4"/>
+                </TouchableOpacity>
+              </View>
             </View>
             <View>
               <TouchableOpacity>
@@ -50,7 +53,7 @@ export default function Posts(props) {
             </View>
           </View>
           <View className="py-1.5">
-            <Text>{props.description}</Text>
+            <Text className="mb-2 text-white">{props.description}</Text>
           </View>
         </View>
       </View>

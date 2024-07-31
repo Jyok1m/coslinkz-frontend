@@ -43,7 +43,7 @@ export default function ConfirmScreen({navigation}) {
       />
       <View className="justify-center items-center h-full">
         <View className="mb-8 justify-center">
-          <Text className="text-gray-300 font-bold border border-solid border-black">
+          <Text className="text-gray-300 font-bold">
             Veuillez entrer votre code de confirmation envoyé dans votre mail
           </Text>
         </View>

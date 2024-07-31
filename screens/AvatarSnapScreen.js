@@ -151,6 +151,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Camera, CameraType, FlashMode } from 'expo-camera/legacy';
 import { FontAwesome } from '@expo/vector-icons';
 import { addProfilePic } from '../reducers/user'; // Assurez-vous que cette action est correctement importée
+import { localFetch } from "../localFetch";
 
 
 export default function AvatarSnapScreen({ navigation }){
@@ -177,6 +178,8 @@ export default function AvatarSnapScreen({ navigation }){
         }
     };
 
+    // console.log(capturedPhoto);
+
     const handleValid = () => {
         if (capturedPhoto?.uri) {
             const formData = new FormData();
@@ -185,8 +188,8 @@ export default function AvatarSnapScreen({ navigation }){
                 name: "avatar.jpg",
                 type: "image/jpeg",
             });
-
-            fetch(`${localFetch}/user/avatar`, {
+            console.log(formData);
+            fetch(`${localFetch}/avatar`, {
                 method: "POST",
                 body: formData,
                 headers: {
@@ -196,14 +199,13 @@ export default function AvatarSnapScreen({ navigation }){
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
-                // if (data.success) {
-                //     dispatch(addProfilePic(data.uri));
-                //     navigation.navigate("TabNavigator", { screen: "Profil" });
-                // } else {
-                //     console.log(data);
-                //     console.error("Error:", data.error);
-                // }
+                console.log(data);
+                if (data.success) {
+                    dispatch(addProfilePic(data.uri));
+                    navigation.navigate("TabNavigator", { screen: "Profil" });
+                } else {
+                    console.error("Error:", data.error);
+                }
             })
             .catch((error) => {
                 console.error("Network request failed:", error);
@@ -213,8 +215,11 @@ export default function AvatarSnapScreen({ navigation }){
         }
     };
 
-    if (!hasPermission) {
+    if (hasPermission === null) {
         return <View />;
+    }
+    if (hasPermission === false) {
+        return <Text>No access to camera</Text>;
     }
 
     return (
