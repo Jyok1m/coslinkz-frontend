@@ -46,7 +46,7 @@ export default function Friends(props) {
         .then(res => res.json())
         .then(data => {
             if(data.success){
-                alert(`${props.username} est devenu(e) votre ami(e)`)
+                alert(`${props.username} ne sera pas votre ami`)
             }
         })
     }
