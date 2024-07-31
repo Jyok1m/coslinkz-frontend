@@ -4,7 +4,6 @@ const initialState = {
   value: {
     username: null,
     avatar: null,
-    confirm: null,
     access: null,
     refresh: null,
   },
@@ -16,13 +15,11 @@ export const userSlice = createSlice({
   reducers: {
     login: (state, action) => {
       state.value.username = action.payload.username;
-      state.value.confirm = action.payload.confirm;
       state.value.access = action.payload.access;
       state.value.refresh = action.payload.refresh;
     },
     logout: (state, action) => {
       state.value.username = null;
-      state.value.confirm = null;
       state.value.access = null;
       state.value.refresh = null;
     },

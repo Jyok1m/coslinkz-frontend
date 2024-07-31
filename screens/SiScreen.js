@@ -34,7 +34,7 @@ export default function SiScreen({ navigation }) {
     // console.log(data);
     if (data.mustConfirm) {
       navigation.navigate("Confirm");
-      dispatch(login({username: identifier, confirm: data.mustConfirm, access: data.accessToken, refresh:data.refreshToken}))
+      dispatch(login({username: identifier, access: data.accessToken, refresh:data.refreshToken}))
       // setUsernameSi("")
       // setPasswordSi("")
     } else if(data.error){
@@ -43,7 +43,7 @@ export default function SiScreen({ navigation }) {
     } else{
       // console.log(data)
       navigation.navigate("TabNavigator");
-      dispatch(login({ username: identifier, confirm: data.mustConfirm, access: data.accessToken, refresh:data.refreshToken}))
+      dispatch(login({ username: identifier, access: data.accessToken, refresh:data.refreshToken}))
     }
      }  
      catch (e) {
